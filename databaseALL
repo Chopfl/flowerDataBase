@@ -1,0 +1,65 @@
+Create database WypozyczalniaKwiatow4;
+Go
+Use WypozyczalniaKwiatow4;
+Go
+
+Create table Klienci (
+id_klienta int identity(1,1) Primary Key,
+imie varchar(30) not null,
+nazwisko varchar(30) not null,
+adres varchar(60) not null,
+kod_pocztowy varchar(5) not null,
+miasto varchar(30) not null,
+telefon_kontaktowy varchar(11) not null );
+
+Insert into Klienci values ('Anna','Kowal','ul.Dluga 12', '31222','Krakow','655755855');
+Insert into Klienci values ('Jan', 'Nowak','ul.Magiczna 21','32422','Warszawa','321421521');
+Insert into Klienci values ('Paweł', 'Kot','ul.Krakowska 6','35312','Katowice','512612712');
+
+Create table Kwiaty (
+id_kwiatow int identity(1,1) Primary Key,
+nazwa varchar(30) not null,
+kolor varchar(30) not null,
+opis varchar(255) not null,
+rodzaj_gatunek varchar(255) not null,
+ilosc_sztuk int not null );
+
+Insert into Kwiaty values ('Roza','Czerwony','Soczysty kolor','Angielskie',5);
+Insert into Kwiaty values ('Tulipan','Zolty','Soczysty kolor','Triumph',50);
+Insert into Kwiaty values ('Slonecznik','Zolty','Soczysty kolor','Braver',4);
+
+Create table Stanowiska (
+id_Stanowisko int identity(1,1) Primary Key,
+uprawnienia varchar(60) not null,
+wynagrodzenie smallmoney not null );
+
+Insert into Stanowiska values ('Szef',5000);
+Insert into Stanowiska values ('Dostawca', 2000);
+Insert into Stanowiska values ('Sprzedawca',2000);
+
+Create table Pracownicy (
+id_Pracownika int identity(1,1) Primary Key,
+imie varchar(30) not null,
+nazwisko varchar(30) not null,
+adres varchar(60) not null,
+kod_pocztowy varchar(5) not null,
+miasto varchar(30) not null,
+telefon_kontaktowy varchar(11) not null,
+stanowisko int Foreign Key references Stanowiska (id_Stanowisko) );
+
+Insert into Pracownicy values ('Anna','Mysz','ul.Przewoz','32421','Krakow','788655788',1);
+Insert into Pracownicy values ('Katarzyna','Umik','ul.Warszawska','31222','Krakow','811900900',2);
+Insert into Pracownicy values ('Jan','Kwiatkowski','ul.Mazurska','30211','Krakow','899700655',3);
+
+Create table  Wypozyczenia (
+id_Wypozyczenia int identity(1,1) Primary Key,
+data_wypozyczenia date not null,
+cena smallmoney not null,
+data_zwrotu date not null,
+id_kwiatow int Foreign Key references Kwiaty(id_kwiatow),
+id_klienta int Foreign Key references Klienci(id_klienta),
+id_Pracownika int Foreign Key references Pracownicy(id_Pracownika) );
+
+insert into Wypozyczenia values ('2018-01-01',50,'2018-01-05',1,1,1);
+insert into Wypozyczenia values ('2018-06-01',50,'2018-06-05',2,2,2);
+insert into Wypozyczenia values ('2018-07-01',50,'2018-07-05',3,3,3);
